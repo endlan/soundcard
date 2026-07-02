@@ -209,8 +209,8 @@ class OverlayControlService : Service() {
         val displayMetrics = resources.displayMetrics
         val screenHeight = displayMetrics.heightPixels
         val screenWidth = displayMetrics.widthPixels
-        val bubbleCenterY = bubbleParams.y + 40 * displayMetrics.density
-        val bubbleCenterX = bubbleParams.x + 40 * displayMetrics.density
+        val bubbleCenterY = bubbleParams.y + 50 * displayMetrics.density
+        val bubbleCenterX = bubbleParams.x + 50 * displayMetrics.density
 
         val zoneRadius = 60 * displayMetrics.density
         val zoneCenterX = screenWidth / 2f
