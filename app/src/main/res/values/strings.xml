@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SoundCardFX</string>
+    <string name="btn_start">Nyalakan</string>
+    <string name="btn_stop">Matikan</string>
+    <string name="label_echo">Echo</string>
+    <string name="label_reverb">Reverb</string>
+    <string name="label_eq_bass">Bass</string>
+    <string name="label_eq_mid">Mid</string>
+    <string name="label_eq_treble">Treble</string>
+    <string name="status_idle">Status: belum aktif</string>
+    <string name="status_running">Status: sedang memproses audio</string>
+    <string name="error_no_permission">GAGAL MENJALANKAN APLIKASI. Izin mikrofon belum diberikan.</string>
+    <string name="notif_channel_name">Sound Card Aktif</string>
+    <string name="notif_title">SoundCardFX berjalan</string>
+    <string name="notif_text">Memproses audio secara real-time</string>
+</resources>
