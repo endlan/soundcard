@@ -2,87 +2,382 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_base"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingHorizontal="20dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="40dp">
 
+        <!-- Wordmark -->
         <TextView
-            android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/status_idle"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
-
-        <Button
-            android:id="@+id/btnToggle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_start" />
+            android:text="@string/app_name"
+            android:textColor="@color/text_primary"
+            android:fontFamily="sans-serif-black"
+            android:textSize="26sp"
+            android:letterSpacing="0.02" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_echo"
-            android:layout_marginTop="24dp" />
-        <SeekBar
-            android:id="@+id/sliderEcho"
+            android:layout_marginTop="2dp"
+            android:text="@string/app_tagline"
+            android:textColor="@color/text_muted"
+            android:fontFamily="monospace"
+            android:textSize="11sp"
+            android:letterSpacing="0.15" />
+
+        <!-- Power section -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="0" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="28dp">
 
+            <FrameLayout
+                android:id="@+id/btnToggle"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:background="@drawable/power_ring_off"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/ivPowerIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_power"
+                    app:tint="@color/power_off" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="@string/status_idle"
+                android:textColor="@color/text_secondary"
+                android:fontFamily="monospace"
+                android:textSize="12sp"
+                android:letterSpacing="0.1" />
+        </LinearLayout>
+
+        <!-- Section: EFEK -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_reverb"
-            android:layout_marginTop="16dp" />
-        <SeekBar
-            android:id="@+id/sliderReverb"
+            android:text="@string/section_fx"
+            android:textColor="@color/text_muted"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="12sp"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Echo channel -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="0" />
+            android:orientation="vertical"
+            android:background="@drawable/card_channel_bg"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/dot_indicator"
+                    android:backgroundTint="@color/accent_echo" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/label_echo"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvEchoValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textColor="@color/accent_echo"
+                    android:fontFamily="monospace"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderEcho"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:valueFrom="0"
+                android:valueTo="100"
+                android:value="0"
+                android:stepSize="1"
+                app:thumbColor="@color/accent_echo"
+                app:trackColorActive="@color/accent_echo"
+                app:trackColorInactive="@color/track_inactive"
+                app:haloColor="@color/accent_echo"
+                app:labelBehavior="gone" />
+        </LinearLayout>
+
+        <!-- Reverb channel -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_channel_bg"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/dot_indicator"
+                    android:backgroundTint="@color/accent_reverb" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/label_reverb"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvReverbValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textColor="@color/accent_reverb"
+                    android:fontFamily="monospace"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderReverb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:valueFrom="0"
+                android:valueTo="100"
+                android:value="0"
+                android:stepSize="1"
+                app:thumbColor="@color/accent_reverb"
+                app:trackColorActive="@color/accent_reverb"
+                app:trackColorInactive="@color/track_inactive"
+                app:haloColor="@color/accent_reverb"
+                app:labelBehavior="gone" />
+        </LinearLayout>
+
+        <!-- Section: EQUALIZER -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_eq_bass"
-            android:layout_marginTop="16dp" />
-        <SeekBar
-            android:id="@+id/sliderBass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="50" />
+            android:text="@string/section_eq"
+            android:textColor="@color/text_muted"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="12sp"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_eq_mid"
-            android:layout_marginTop="16dp" />
-        <SeekBar
-            android:id="@+id/sliderMid"
+        <!-- Bass channel -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="50" />
+            android:orientation="vertical"
+            android:background="@drawable/card_channel_bg"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_eq_treble"
-            android:layout_marginTop="16dp" />
-        <SeekBar
-            android:id="@+id/sliderTreble"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/dot_indicator"
+                    android:backgroundTint="@color/accent_bass" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/label_eq_bass"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvBassValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0dB"
+                    android:textColor="@color/accent_bass"
+                    android:fontFamily="monospace"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderBass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:valueFrom="0"
+                android:valueTo="100"
+                android:value="50"
+                android:stepSize="1"
+                app:thumbColor="@color/accent_bass"
+                app:trackColorActive="@color/accent_bass"
+                app:trackColorInactive="@color/track_inactive"
+                app:haloColor="@color/accent_bass"
+                app:labelBehavior="gone" />
+        </LinearLayout>
+
+        <!-- Mid channel -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="50" />
+            android:orientation="vertical"
+            android:background="@drawable/card_channel_bg"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/dot_indicator"
+                    android:backgroundTint="@color/accent_mid" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/label_eq_mid"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvMidValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0dB"
+                    android:textColor="@color/accent_mid"
+                    android:fontFamily="monospace"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderMid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:valueFrom="0"
+                android:valueTo="100"
+                android:value="50"
+                android:stepSize="1"
+                app:thumbColor="@color/accent_mid"
+                app:trackColorActive="@color/accent_mid"
+                app:trackColorInactive="@color/track_inactive"
+                app:haloColor="@color/accent_mid"
+                app:labelBehavior="gone" />
+        </LinearLayout>
+
+        <!-- Treble channel -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_channel_bg"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/dot_indicator"
+                    android:backgroundTint="@color/accent_treble" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/label_eq_treble"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvTrebleValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0dB"
+                    android:textColor="@color/accent_treble"
+                    android:fontFamily="monospace"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderTreble"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:valueFrom="0"
+                android:valueTo="100"
+                android:value="50"
+                android:stepSize="1"
+                app:thumbColor="@color/accent_treble"
+                app:trackColorActive="@color/accent_treble"
+                app:trackColorInactive="@color/track_inactive"
+                app:haloColor="@color/accent_treble"
+                app:labelBehavior="gone" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
