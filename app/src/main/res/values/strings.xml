@@ -19,4 +19,9 @@
     <string name="notif_title">SoundCardFX berjalan</string>
     <string name="notif_text">Memproses audio secara real-time</string>
     <string name="notif_action_stop">Matikan</string>
+    <string name="notif_overlay_channel_name">Kontrol Mengambang</string>
+    <string name="notif_overlay_title">Kontrol mengambang aktif</string>
+    <string name="notif_overlay_text">Tap bubble buat Live/Standby, tarik ke bawah buat hilangkan</string>
+    <string name="notif_action_hide">Hilangkan</string>
+    <string name="overlay_permission_prompt">Izinkan "Tampil di atas aplikasi lain" biar bisa munculin tombol mengambang</string>
 </resources>
