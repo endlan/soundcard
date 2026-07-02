@@ -1,9 +1,11 @@
 package com.endlan.soundcardfx
 
 import android.Manifest
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -56,6 +58,17 @@ class MainActivity : AppCompatActivity() {
         startOverlayControlIfPermitted()
     }
 
+    /** Nangkep perubahan status Live/Standby yang dipicu dari LUAR app ini (bubble atau tombol notifikasi). */
+    private val engineStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val running = intent?.getBooleanExtra(AudioEngineService.EXTRA_RUNNING, false) ?: false
+            updateStatusUi(running)
+            if (running && !serviceBound) {
+                attachToRunningServiceIfAny()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -73,11 +86,17 @@ class MainActivity : AppCompatActivity() {
         // service baru) biar status UI sinkron dengan kondisi aslinya.
         attachToRunningServiceIfAny()
         ensureOverlayPermissionThenShowBubble()
+        ContextCompat.registerReceiver(
+            this, engineStateReceiver,
+            IntentFilter(AudioEngineService.ACTION_ENGINE_STATE_CHANGED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
     }
 
     override fun onStop() {
         super.onStop()
         detachFromService()
+        try { unregisterReceiver(engineStateReceiver) } catch (e: IllegalArgumentException) { /* belum terdaftar */ }
     }
 
     private fun attachToRunningServiceIfAny() {
