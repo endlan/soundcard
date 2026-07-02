@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bubbleRoot"
+    android:layout_width="64dp"
+    android:layout_height="64dp"
+    android:background="@drawable/power_ring_off"
+    android:elevation="8dp">
+
+    <ImageView
+        android:id="@+id/bubbleIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_power"
+        app:tint="@color/power_off" />
+</FrameLayout>
