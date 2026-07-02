@@ -6,14 +6,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.activity.result.contract.ActivityResultContracts
 import com.endlan.soundcardfx.audio.AudioEngineService
+import com.endlan.soundcardfx.audio.OverlayControlService
 import com.endlan.soundcardfx.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +50,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val overlayPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        startOverlayControlIfPermitted()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -63,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         // service masih jalan di background. Kalau iya, nempel ke situ (TANPA nyalain
         // service baru) biar status UI sinkron dengan kondisi aslinya.
         attachToRunningServiceIfAny()
+        ensureOverlayPermissionThenShowBubble()
     }
 
     override fun onStop() {
@@ -83,6 +93,29 @@ class MainActivity : AppCompatActivity() {
             serviceBound = false
         }
         service = null
+    }
+
+    private fun ensureOverlayPermissionThenShowBubble() {
+        if (Settings.canDrawOverlays(this)) {
+            startOverlayControlIfPermitted()
+        } else {
+            Toast.makeText(this, getString(R.string.overlay_permission_prompt), Toast.LENGTH_LONG).show()
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName")
+            )
+            overlayPermissionLauncher.launch(intent)
+        }
+    }
+
+    private fun startOverlayControlIfPermitted() {
+        if (!Settings.canDrawOverlays(this)) return
+        val intent = Intent(this, OverlayControlService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
     }
 
     private fun toggleEngine() {
