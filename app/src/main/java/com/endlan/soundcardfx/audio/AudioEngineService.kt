@@ -22,6 +22,8 @@ class AudioEngineService : Service() {
         private const val CHANNEL_ID = "soundcardfx_engine"
         private const val NOTIF_ID = 1
         const val ACTION_STOP = "com.endlan.soundcardfx.action.STOP"
+        const val ACTION_ENGINE_STATE_CHANGED = "com.endlan.soundcardfx.action.ENGINE_STATE_CHANGED"
+        const val EXTRA_RUNNING = "running"
 
         /** Dicek dari Activity buat tau apakah service masih jalan di background, tanpa nge-start service baru. */
         @Volatile var isRunning: Boolean = false
@@ -51,12 +53,14 @@ class AudioEngineService : Service() {
         startForeground(NOTIF_ID, buildNotification())
         engine.start()
         isRunning = true
+        broadcastEngineState()
         return START_STICKY
     }
 
     private fun stopEngineAndSelf() {
         engine.stop()
         isRunning = false
+        broadcastEngineState()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopForeground(STOP_FOREGROUND_REMOVE)
         } else {
@@ -69,7 +73,16 @@ class AudioEngineService : Service() {
     override fun onDestroy() {
         engine.stop()
         isRunning = false
+        broadcastEngineState()
         super.onDestroy()
+    }
+
+    private fun broadcastEngineState() {
+        val intent = Intent(ACTION_ENGINE_STATE_CHANGED).apply {
+            putExtra(EXTRA_RUNNING, isRunning)
+            setPackage(packageName)
+        }
+        sendBroadcast(intent)
     }
 
     private fun createNotificationChannel() {
