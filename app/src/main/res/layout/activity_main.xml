@@ -137,6 +137,7 @@
                 app:trackColorActive="@color/accent_echo"
                 app:trackColorInactive="@color/track_inactive"
                 app:haloColor="@color/accent_echo"
+                app:tickVisible="false"
                 app:labelBehavior="gone" />
         </LinearLayout>
 
@@ -194,6 +195,7 @@
                 app:trackColorActive="@color/accent_reverb"
                 app:trackColorInactive="@color/track_inactive"
                 app:haloColor="@color/accent_reverb"
+                app:tickVisible="false"
                 app:labelBehavior="gone" />
         </LinearLayout>
 
@@ -262,6 +264,7 @@
                 app:trackColorActive="@color/accent_bass"
                 app:trackColorInactive="@color/track_inactive"
                 app:haloColor="@color/accent_bass"
+                app:tickVisible="false"
                 app:labelBehavior="gone" />
         </LinearLayout>
 
@@ -319,6 +322,7 @@
                 app:trackColorActive="@color/accent_mid"
                 app:trackColorInactive="@color/track_inactive"
                 app:haloColor="@color/accent_mid"
+                app:tickVisible="false"
                 app:labelBehavior="gone" />
         </LinearLayout>
 
@@ -376,6 +380,7 @@
                 app:trackColorActive="@color/accent_treble"
                 app:trackColorInactive="@color/track_inactive"
                 app:haloColor="@color/accent_treble"
+                app:tickVisible="false"
                 app:labelBehavior="gone" />
         </LinearLayout>
 
