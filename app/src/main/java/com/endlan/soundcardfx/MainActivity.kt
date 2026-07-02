@@ -9,10 +9,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.activity.result.contract.ActivityResultContracts
 import com.endlan.soundcardfx.audio.AudioEngineService
@@ -55,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnToggle.setOnClickListener { toggleEngine() }
         setupSliders()
+        updateStatusUi(false)
     }
 
     private fun toggleEngine() {
@@ -98,41 +97,69 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateStatusUi(running: Boolean) {
         binding.tvStatus.text = getString(if (running) R.string.status_running else R.string.status_idle)
-        binding.btnToggle.text = getString(if (running) R.string.btn_stop else R.string.btn_start)
+        binding.tvStatus.setTextColor(
+            ContextCompat.getColor(this, if (running) R.color.power_on else R.color.text_secondary)
+        )
+        binding.btnToggle.setBackgroundResource(
+            if (running) R.drawable.power_ring_on else R.drawable.power_ring_off
+        )
+        binding.ivPowerIcon.imageTintList = ContextCompat.getColorStateList(
+            this, if (running) R.color.power_on else R.color.power_off
+        )
     }
 
     private fun setupSliders() {
-        binding.sliderEcho.setOnSeekBarChangeListener(simpleListener { v ->
+        binding.sliderEcho.addOnChangeListener { _, value, _ ->
+            val v = value.toInt()
+            binding.tvEchoValue.text = getString(R.string.percent_format, v)
             service?.engine?.echo?.mix = v / 100f
-        })
-        binding.sliderReverb.setOnSeekBarChangeListener(simpleListener { v ->
+        }
+        binding.sliderReverb.addOnChangeListener { _, value, _ ->
+            val v = value.toInt()
+            binding.tvReverbValue.text = getString(R.string.percent_format, v)
             service?.engine?.reverb?.mix = v / 100f
-        })
-        binding.sliderBass.setOnSeekBarChangeListener(simpleListener { v ->
+        }
+        binding.sliderBass.addOnChangeListener { _, value, _ ->
+            val v = value.toInt()
+            binding.tvBassValue.text = formatDb(v)
             service?.engine?.equalizer?.setBass(v)
-        })
-        binding.sliderMid.setOnSeekBarChangeListener(simpleListener { v ->
+        }
+        binding.sliderMid.addOnChangeListener { _, value, _ ->
+            val v = value.toInt()
+            binding.tvMidValue.text = formatDb(v)
             service?.engine?.equalizer?.setMid(v)
-        })
-        binding.sliderTreble.setOnSeekBarChangeListener(simpleListener { v ->
+        }
+        binding.sliderTreble.addOnChangeListener { _, value, _ ->
+            val v = value.toInt()
+            binding.tvTrebleValue.text = formatDb(v)
             service?.engine?.equalizer?.setTreble(v)
-        })
+        }
+
+        // set nilai awal biar readout kebaca bener sebelum ada interaksi
+        binding.tvEchoValue.text = getString(R.string.percent_format, binding.sliderEcho.value.toInt())
+        binding.tvReverbValue.text = getString(R.string.percent_format, binding.sliderReverb.value.toInt())
+        binding.tvBassValue.text = formatDb(binding.sliderBass.value.toInt())
+        binding.tvMidValue.text = formatDb(binding.sliderMid.value.toInt())
+        binding.tvTrebleValue.text = formatDb(binding.sliderTreble.value.toInt())
+    }
+
+    /** Slider EQ 0..100 (50 = flat/0dB) diformat jadi label dB buat readout, misal "+6dB" / "-3dB" */
+    private fun formatDb(sliderValue: Int): String {
+        val db = ((sliderValue - 50) / 50f) * 12f
+        val rounded = Math.round(db)
+        return when {
+            rounded > 0 -> "+${rounded}dB"
+            rounded < 0 -> "${rounded}dB"
+            else -> "0dB"
+        }
     }
 
     private fun applyAllSlidersToEngine() {
-        service?.engine?.echo?.mix = binding.sliderEcho.progress / 100f
-        service?.engine?.reverb?.mix = binding.sliderReverb.progress / 100f
-        service?.engine?.equalizer?.setBass(binding.sliderBass.progress)
-        service?.engine?.equalizer?.setMid(binding.sliderMid.progress)
-        service?.engine?.equalizer?.setTreble(binding.sliderTreble.progress)
-    }
-
-    private fun simpleListener(onChange: (Int) -> Unit) = object : SeekBar.OnSeekBarChangeListener {
-        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            onChange(progress)
-        }
-        override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-        override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        service?.engine?.echo?.mix = binding.sliderEcho.value / 100f
+        service?.engine?.reverb?.mix = binding.sliderReverb.value / 100f
+        service?.engine?.equalizer?.setBass(binding.sliderBass.value.toInt())
+        service?.engine?.equalizer?.setMid(binding.sliderMid.value.toInt())
+        service?.engine?.equalizer?.setTreble(binding.sliderTreble.value.toInt())
     }
 
     override fun onDestroy() {
