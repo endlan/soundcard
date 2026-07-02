@@ -20,19 +20,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var service: AudioEngineService? = null
-    private var bound = false
+
+    /** true kalau Activity ini sedang bind ke service (berarti wajib unbind biar gak leak). */
+    private var serviceBound = false
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
             service = (binder as AudioEngineService.LocalBinder).getService()
-            bound = true
             applyAllSlidersToEngine()
             updateStatusUi(true)
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             service = null
-            bound = false
+            updateStatusUi(false)
         }
     }
 
@@ -56,8 +57,36 @@ class MainActivity : AppCompatActivity() {
         updateStatusUi(false)
     }
 
+    override fun onStart() {
+        super.onStart()
+        // Setiap kali Activity ini muncul lagi (misal habis di-minimize), cek apakah
+        // service masih jalan di background. Kalau iya, nempel ke situ (TANPA nyalain
+        // service baru) biar status UI sinkron dengan kondisi aslinya.
+        attachToRunningServiceIfAny()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        detachFromService()
+    }
+
+    private fun attachToRunningServiceIfAny() {
+        if (serviceBound) return
+        val intent = Intent(this, AudioEngineService::class.java)
+        // flag 0 (bukan BIND_AUTO_CREATE) -> cuma connect kalau service-nya udah exist/jalan.
+        serviceBound = bindService(intent, connection, 0)
+    }
+
+    private fun detachFromService() {
+        if (serviceBound) {
+            unbindService(connection)
+            serviceBound = false
+        }
+        service = null
+    }
+
     private fun toggleEngine() {
-        if (bound) {
+        if (service != null) {
             stopEngine()
         } else {
             ensureMicPermissionThenStart()
@@ -82,16 +111,14 @@ class MainActivity : AppCompatActivity() {
         } else {
             startService(intent)
         }
-        bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        if (!serviceBound) {
+            serviceBound = bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
     }
 
     private fun stopEngine() {
-        if (bound) {
-            unbindService(connection)
-            bound = false
-        }
         stopService(Intent(this, AudioEngineService::class.java))
-        service = null
+        detachFromService()
         updateStatusUi(false)
     }
 
@@ -135,7 +162,6 @@ class MainActivity : AppCompatActivity() {
             service?.engine?.equalizer?.setTreble(v)
         }
 
-        // set nilai awal biar readout kebaca bener sebelum ada interaksi
         binding.tvEchoValue.text = getString(R.string.percent_format, binding.sliderEcho.value.toInt())
         binding.tvReverbValue.text = getString(R.string.percent_format, binding.sliderReverb.value.toInt())
         binding.tvBassValue.text = formatDb(binding.sliderBass.value.toInt())
@@ -143,7 +169,6 @@ class MainActivity : AppCompatActivity() {
         binding.tvTrebleValue.text = formatDb(binding.sliderTreble.value.toInt())
     }
 
-    /** Slider EQ 0..100 (50 = flat/0dB) diformat jadi label dB buat readout, misal "+6dB" / "-3dB" */
     private fun formatDb(sliderValue: Int): String {
         val db = ((sliderValue - 50) / 50f) * 12f
         val rounded = Math.round(db)
@@ -163,10 +188,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if (bound) {
-            unbindService(connection)
-            bound = false
-        }
+        detachFromService()
         super.onDestroy()
     }
 }
