@@ -18,4 +18,5 @@
     <string name="notif_channel_name">Sound Card Aktif</string>
     <string name="notif_title">SoundCardFX berjalan</string>
     <string name="notif_text">Memproses audio secara real-time</string>
+    <string name="notif_action_stop">Matikan</string>
 </resources>
