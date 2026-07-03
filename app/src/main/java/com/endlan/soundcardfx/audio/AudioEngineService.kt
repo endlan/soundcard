@@ -6,6 +6,9 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -31,6 +34,37 @@ class AudioEngineService : Service() {
 
     val engine = AudioEngine()
 
+    private lateinit var audioManager: AudioManager
+    private var focusRequest: AudioFocusRequest? = null
+
+    /** true kalau engine kepaksa berhenti gara-gara kehilangan audio focus (bukan dimatiin manual). */
+    private var pausedByFocusLoss = false
+
+    private val focusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+        when (focusChange) {
+            AudioManager.AUDIOFOCUS_LOSS,
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                // Ada app lain (misal panggilan WA/telepon) yang butuh mic/audio lebih penting.
+                // Kasih jalan dulu: hentikan sementara, jangan matiin service-nya.
+                if (engine.isActive()) {
+                    engine.stop()
+                    isRunning = false
+                    pausedByFocusLoss = true
+                    broadcastEngineState()
+                }
+            }
+            AudioManager.AUDIOFOCUS_GAIN -> {
+                // App lain udah selesai (panggilan berakhir dll), lanjutin lagi otomatis.
+                if (pausedByFocusLoss) {
+                    engine.start()
+                    isRunning = true
+                    pausedByFocusLoss = false
+                    broadcastEngineState()
+                }
+            }
+        }
+    }
+
     inner class LocalBinder : Binder() {
         fun getService(): AudioEngineService = this@AudioEngineService
     }
@@ -41,6 +75,7 @@ class AudioEngineService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         createNotificationChannel()
     }
 
@@ -51,15 +86,41 @@ class AudioEngineService : Service() {
         }
 
         startForeground(NOTIF_ID, buildNotification())
-        engine.start()
-        isRunning = true
-        broadcastEngineState()
+        if (requestAudioFocus()) {
+            engine.start()
+            isRunning = true
+            pausedByFocusLoss = false
+            broadcastEngineState()
+        }
         return START_STICKY
+    }
+
+    private fun requestAudioFocus(): Boolean {
+        val attrs = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
+
+        val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+            .setAudioAttributes(attrs)
+            .setOnAudioFocusChangeListener(focusChangeListener)
+            .build()
+
+        focusRequest = request
+        val result = audioManager.requestAudioFocus(request)
+        return result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+    }
+
+    private fun abandonAudioFocus() {
+        focusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
+        focusRequest = null
     }
 
     private fun stopEngineAndSelf() {
         engine.stop()
         isRunning = false
+        pausedByFocusLoss = false
+        abandonAudioFocus()
         broadcastEngineState()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopForeground(STOP_FOREGROUND_REMOVE)
@@ -73,6 +134,8 @@ class AudioEngineService : Service() {
     override fun onDestroy() {
         engine.stop()
         isRunning = false
+        pausedByFocusLoss = false
+        abandonAudioFocus()
         broadcastEngineState()
         super.onDestroy()
     }
