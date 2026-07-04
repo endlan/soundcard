@@ -24,4 +24,11 @@
     <string name="notif_overlay_text">Tap bubble buat Live/Standby, tarik ke bawah buat hilangkan</string>
     <string name="notif_action_hide">Hilangkan</string>
     <string name="overlay_permission_prompt">Izinkan "Tampil di atas aplikasi lain" biar bisa munculin tombol mengambang</string>
+    <string name="btn_exit">Keluar Aplikasi</string>
+    <string name="exit_confirm_title">Keluar dari SoundCardFX?</string>
+    <string name="exit_confirm_message">Ini bakal matiin mic, hilangin bubble, dan nutup aplikasi sepenuhnya.</string>
+    <string name="exit_confirm_yes">Ya, Keluar</string>
+    <string name="exit_confirm_no">Batal</string>
+    <string name="knob_label_live">LIVE</string>
+    <string name="knob_label_exit">KELUAR</string>
 </resources>

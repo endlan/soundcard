@@ -23,4 +23,16 @@
     <color name="accent_treble">#5AD1FF</color>
 
     <color name="track_inactive">#31343F</color>
+
+    <!-- Fader (equalizer) -->
+    <color name="fader_track_bg">#0C0F18</color>
+    <color name="fader_track_active">#4A78E8</color>
+    <color name="fader_thumb_color">#B6BCC9</color>
+
+    <!-- LED meter (dekoratif, kayak VU meter mixer fisik) -->
+    <color name="led_red">#FF4D4D</color>
+    <color name="led_orange">#FFB84D</color>
+    <color name="led_yellow">#FFE14D</color>
+    <color name="led_yellowgreen">#C6F24D</color>
+    <color name="led_green">#4DFF88</color>
 </resources>
