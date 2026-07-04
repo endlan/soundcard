@@ -11,7 +11,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -29,6 +31,25 @@ class MainActivity : AppCompatActivity() {
 
     /** true kalau Activity ini sedang bind ke service (berarti wajib unbind biar gak leak). */
     private var serviceBound = false
+
+    private val meterHandler = Handler(Looper.getMainLooper())
+    private var displayedLevel = 0f
+    private lateinit var ledsLeft: List<android.view.View>
+    private lateinit var ledsRight: List<android.view.View>
+
+    private val meterRunnable = object : Runnable {
+        override fun run() {
+            val rawLevel = service?.engine?.currentLevel ?: 0f
+            // Naik cepat (attack), turun pelan-pelan (decay) - biar animasinya kayak VU meter beneran.
+            displayedLevel = if (rawLevel > displayedLevel) {
+                rawLevel
+            } else {
+                (displayedLevel - 0.06f).coerceAtLeast(0f)
+            }
+            updateLedMeter(displayedLevel)
+            meterHandler.postDelayed(this, 60)
+        }
+    }
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
@@ -79,6 +100,9 @@ class MainActivity : AppCompatActivity() {
         binding.btnExit.setOnClickListener { confirmExit() }
         setupSliders()
         updateStatusUi(false)
+
+        ledsLeft = listOf(binding.ledL0, binding.ledL1, binding.ledL2, binding.ledL3, binding.ledL4, binding.ledL5, binding.ledL6)
+        ledsRight = listOf(binding.ledR0, binding.ledR1, binding.ledR2, binding.ledR3, binding.ledR4, binding.ledR5, binding.ledR6)
     }
 
     override fun onStart() {
@@ -93,12 +117,14 @@ class MainActivity : AppCompatActivity() {
             IntentFilter(AudioEngineService.ACTION_ENGINE_STATE_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        meterHandler.post(meterRunnable)
     }
 
     override fun onStop() {
         super.onStop()
         detachFromService()
         try { unregisterReceiver(engineStateReceiver) } catch (e: IllegalArgumentException) { /* belum terdaftar */ }
+        meterHandler.removeCallbacks(meterRunnable)
     }
 
     private fun attachToRunningServiceIfAny() {
@@ -240,6 +266,18 @@ class MainActivity : AppCompatActivity() {
         binding.tvBassValue.text = formatDb(binding.sliderBass.value.toInt())
         binding.tvMidValue.text = formatDb(binding.sliderMid.value.toInt())
         binding.tvTrebleValue.text = formatDb(binding.sliderTreble.value.toInt())
+    }
+
+    private fun updateLedMeter(level: Float) {
+        val litCount = (level * ledsLeft.size).toInt().coerceIn(0, ledsLeft.size)
+        // Urutan View di XML dari atas(merah) ke bawah(hijau) - nyalain dari BAWAH dulu
+        // (index terakhir) sesuai kenaikan level, kayak VU meter fisik.
+        for (i in ledsLeft.indices) {
+            val litFromBottom = i >= (ledsLeft.size - litCount)
+            val alpha = if (litFromBottom) 1f else 0.18f
+            ledsLeft[i].alpha = alpha
+            ledsRight[i].alpha = alpha
+        }
     }
 
     private fun formatDb(sliderValue: Int): String {
