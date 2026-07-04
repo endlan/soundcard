@@ -9,6 +9,7 @@ import android.media.MediaRecorder
 import com.endlan.soundcardfx.audio.effects.Echo
 import com.endlan.soundcardfx.audio.effects.Equalizer
 import com.endlan.soundcardfx.audio.effects.Reverb
+import kotlin.math.sqrt
 
 /**
  * Mesin audio real-time: mic -> EQ -> Echo -> Reverb -> speaker/output.
@@ -29,6 +30,10 @@ class AudioEngine {
     val equalizer = Equalizer(SAMPLE_RATE)
     val echo = Echo(SAMPLE_RATE)
     val reverb = Reverb(SAMPLE_RATE)
+
+    /** Level audio output saat ini (0f..1f), dibaca UI buat animasi LED meter. */
+    @Volatile var currentLevel: Float = 0f
+        private set
 
     /** @return true kalau berhasil start, false kalau gagal (misal permission belum ada / device gak support) */
     fun start(): Boolean {
@@ -115,6 +120,15 @@ class AudioEngine {
                 pcmBuffer[i] = (sample * 32767f).toInt().toShort()
             }
 
+            // Hitung RMS (rata-rata kekuatan sinyal) buat referensi animasi LED meter di UI.
+            var sumSquares = 0.0
+            for (i in 0 until readCount) {
+                val s = pcmBuffer[i] / 32768f
+                sumSquares += (s * s).toDouble()
+            }
+            val rms = sqrt(sumSquares / readCount).toFloat()
+            currentLevel = (rms * 4f).coerceIn(0f, 1f) // dikali biar lebih responsif ke suara ngomong biasa
+
             track.write(pcmBuffer, 0, readCount)
         }
     }
@@ -137,6 +151,7 @@ class AudioEngine {
         audioTrack = null
 
         echo.reset()
+        currentLevel = 0f
     }
 
     fun isActive() = isRunning
