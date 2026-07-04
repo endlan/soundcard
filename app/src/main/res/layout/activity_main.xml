@@ -71,7 +71,7 @@
                 <!-- ECHO -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvEchoValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0%" android:textColor="@color/accent_echo" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="48dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderEcho"
                             android:layout_width="250dp"
@@ -79,11 +79,11 @@
                             android:layout_gravity="center"
                             android:rotation="270"
                             android:valueFrom="0" android:valueTo="100" android:value="0" android:stepSize="1"
-                            app:trackHeight="14dp"
+                            app:trackHeight="16dp"
                             app:trackColorActive="@color/fader_track_active"
                             app:trackColorInactive="@color/fader_track_bg"
                             app:thumbColor="@color/fader_thumb_color"
-                            app:thumbWidth="22dp" app:thumbHeight="34dp"
+                            app:thumbWidth="30dp" app:thumbHeight="44dp"
                             app:haloColor="@color/fader_thumb_color"
                             app:tickVisible="false" app:labelBehavior="gone" />
                     </FrameLayout>
@@ -93,7 +93,7 @@
                 <!-- REVERB -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvReverbValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0%" android:textColor="@color/accent_reverb" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="48dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderReverb"
                             android:layout_width="250dp"
@@ -101,11 +101,11 @@
                             android:layout_gravity="center"
                             android:rotation="270"
                             android:valueFrom="0" android:valueTo="100" android:value="0" android:stepSize="1"
-                            app:trackHeight="14dp"
+                            app:trackHeight="16dp"
                             app:trackColorActive="@color/fader_track_active"
                             app:trackColorInactive="@color/fader_track_bg"
                             app:thumbColor="@color/fader_thumb_color"
-                            app:thumbWidth="22dp" app:thumbHeight="34dp"
+                            app:thumbWidth="30dp" app:thumbHeight="44dp"
                             app:haloColor="@color/fader_thumb_color"
                             app:tickVisible="false" app:labelBehavior="gone" />
                     </FrameLayout>
@@ -115,7 +115,7 @@
                 <!-- BASS -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvBassValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0dB" android:textColor="@color/accent_bass" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="48dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderBass"
                             android:layout_width="250dp"
@@ -123,11 +123,11 @@
                             android:layout_gravity="center"
                             android:rotation="270"
                             android:valueFrom="0" android:valueTo="100" android:value="50" android:stepSize="1"
-                            app:trackHeight="14dp"
+                            app:trackHeight="16dp"
                             app:trackColorActive="@color/fader_track_active"
                             app:trackColorInactive="@color/fader_track_bg"
                             app:thumbColor="@color/fader_thumb_color"
-                            app:thumbWidth="22dp" app:thumbHeight="34dp"
+                            app:thumbWidth="30dp" app:thumbHeight="44dp"
                             app:haloColor="@color/fader_thumb_color"
                             app:tickVisible="false" app:labelBehavior="gone" />
                     </FrameLayout>
@@ -137,7 +137,7 @@
                 <!-- MID -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvMidValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0dB" android:textColor="@color/accent_mid" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="48dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderMid"
                             android:layout_width="250dp"
@@ -145,11 +145,11 @@
                             android:layout_gravity="center"
                             android:rotation="270"
                             android:valueFrom="0" android:valueTo="100" android:value="50" android:stepSize="1"
-                            app:trackHeight="14dp"
+                            app:trackHeight="16dp"
                             app:trackColorActive="@color/fader_track_active"
                             app:trackColorInactive="@color/fader_track_bg"
                             app:thumbColor="@color/fader_thumb_color"
-                            app:thumbWidth="22dp" app:thumbHeight="34dp"
+                            app:thumbWidth="30dp" app:thumbHeight="44dp"
                             app:haloColor="@color/fader_thumb_color"
                             app:tickVisible="false" app:labelBehavior="gone" />
                     </FrameLayout>
@@ -159,7 +159,7 @@
                 <!-- TREBLE -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvTrebleValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0dB" android:textColor="@color/accent_treble" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="48dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderTreble"
                             android:layout_width="250dp"
@@ -167,11 +167,11 @@
                             android:layout_gravity="center"
                             android:rotation="270"
                             android:valueFrom="0" android:valueTo="100" android:value="50" android:stepSize="1"
-                            app:trackHeight="14dp"
+                            app:trackHeight="16dp"
                             app:trackColorActive="@color/fader_track_active"
                             app:trackColorInactive="@color/fader_track_bg"
                             app:thumbColor="@color/fader_thumb_color"
-                            app:thumbWidth="22dp" app:thumbHeight="34dp"
+                            app:thumbWidth="30dp" app:thumbHeight="44dp"
                             app:haloColor="@color/fader_thumb_color"
                             app:tickVisible="false" app:labelBehavior="gone" />
                     </FrameLayout>
