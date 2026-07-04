@@ -8,8 +8,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center_vertical"
         android:paddingHorizontal="16dp"
         android:paddingTop="28dp"
         android:paddingBottom="36dp">
@@ -47,19 +48,17 @@
             <!-- LED strip kiri -->
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="220dp"
+                android:layout_height="250dp"
                 android:layout_marginTop="28dp"
                 android:orientation="vertical">
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_orange" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellow" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellowgreen" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
+                <View android:id="@+id/ledL0" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
+                <View android:id="@+id/ledL1" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
+                <View android:id="@+id/ledL2" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_orange" />
+                <View android:id="@+id/ledL3" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellow" />
+                <View android:id="@+id/ledL4" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellowgreen" />
+                <View android:id="@+id/ledL5" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
+                <View android:id="@+id/ledL6" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
             </LinearLayout>
-
-            <!-- 5 kolom fader -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -69,10 +68,10 @@
                 <!-- ECHO -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvEchoValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0%" android:textColor="@color/accent_echo" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="220dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderEcho"
-                            android:layout_width="220dp"
+                            android:layout_width="250dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:rotation="270"
@@ -91,10 +90,10 @@
                 <!-- REVERB -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvReverbValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0%" android:textColor="@color/accent_reverb" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="220dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderReverb"
-                            android:layout_width="220dp"
+                            android:layout_width="250dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:rotation="270"
@@ -113,10 +112,10 @@
                 <!-- BASS -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvBassValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0dB" android:textColor="@color/accent_bass" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="220dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderBass"
-                            android:layout_width="220dp"
+                            android:layout_width="250dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:rotation="270"
@@ -135,10 +134,10 @@
                 <!-- MID -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvMidValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0dB" android:textColor="@color/accent_mid" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="220dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderMid"
-                            android:layout_width="220dp"
+                            android:layout_width="250dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:rotation="270"
@@ -157,10 +156,10 @@
                 <!-- TREBLE -->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center_horizontal">
                     <TextView android:id="@+id/tvTrebleValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0dB" android:textColor="@color/accent_treble" android:fontFamily="monospace" android:textSize="10sp" />
-                    <FrameLayout android:layout_width="40dp" android:layout_height="220dp" android:clipChildren="false">
+                    <FrameLayout android:layout_width="40dp" android:layout_height="250dp" android:clipChildren="false">
                         <com.google.android.material.slider.Slider
                             android:id="@+id/sliderTreble"
-                            android:layout_width="220dp"
+                            android:layout_width="250dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
                             android:rotation="270"
@@ -181,16 +180,16 @@
             <!-- LED strip kanan -->
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="220dp"
+                android:layout_height="250dp"
                 android:layout_marginTop="28dp"
                 android:orientation="vertical">
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_orange" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellow" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellowgreen" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
-                <View android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
+                <View android:id="@+id/ledR0" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
+                <View android:id="@+id/ledR1" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_red" />
+                <View android:id="@+id/ledR2" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_orange" />
+                <View android:id="@+id/ledR3" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellow" />
+                <View android:id="@+id/ledR4" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_yellowgreen" />
+                <View android:id="@+id/ledR5" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="3dp" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
+                <View android:id="@+id/ledR6" android:layout_width="12dp" android:layout_height="0dp" android:layout_weight="1" android:background="@drawable/led_light" android:backgroundTint="@color/led_green" />
             </LinearLayout>
         </LinearLayout>
 
