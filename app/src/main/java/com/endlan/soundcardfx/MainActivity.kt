@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.activity.result.contract.ActivityResultContracts
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnToggle.setOnClickListener { toggleEngine() }
+        binding.btnExit.setOnClickListener { confirmExit() }
         setupSliders()
         updateStatusUi(false)
     }
@@ -137,6 +139,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun confirmExit() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.exit_confirm_title)
+            .setMessage(R.string.exit_confirm_message)
+            .setPositiveButton(R.string.exit_confirm_yes) { _, _ -> exitAppCompletely() }
+            .setNegativeButton(R.string.exit_confirm_no, null)
+            .show()
+    }
+
+    private fun exitAppCompletely() {
+        detachFromService()
+        stopService(Intent(this, AudioEngineService::class.java))
+        stopService(Intent(this, OverlayControlService::class.java))
+        finishAndRemoveTask()
+    }
+
     private fun toggleEngine() {
         if (service != null) {
             stopEngine()
@@ -184,6 +202,9 @@ class MainActivity : AppCompatActivity() {
         )
         binding.ivPowerIcon.imageTintList = ContextCompat.getColorStateList(
             this, if (running) R.color.power_on else R.color.power_off
+        )
+        binding.tvLiveKnobLabel.setTextColor(
+            ContextCompat.getColor(this, if (running) R.color.power_on else R.color.power_off)
         )
     }
 
