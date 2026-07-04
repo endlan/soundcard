@@ -5,7 +5,7 @@
         <shape android:shape="oval">
             <stroke
                 android:width="3dp"
-                android:color="#3A4560"
+                android:color="#4A5D8A"
                 android:dashWidth="4dp"
                 android:dashGap="4dp" />
         </shape>
@@ -18,9 +18,9 @@
                 android:gradientRadius="45dp"
                 android:centerX="0.35"
                 android:centerY="0.3"
-                android:startColor="#3E4A68"
-                android:endColor="#12182A" />
-            <stroke android:width="2dp" android:color="#2E3A54" />
+                android:startColor="#44527E"
+                android:endColor="#1A2440" />
+            <stroke android:width="2dp" android:color="#3A4D78" />
         </shape>
     </item>
 </layer-list>

@@ -18,8 +18,8 @@
                 android:gradientRadius="45dp"
                 android:centerX="0.35"
                 android:centerY="0.3"
-                android:startColor="#3E4A68"
-                android:endColor="#12182A" />
+                android:startColor="#44527E"
+                android:endColor="#1A2440" />
             <stroke android:width="2dp" android:color="@color/power_on" />
         </shape>
     </item>
