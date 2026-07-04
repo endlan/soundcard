@@ -101,8 +101,8 @@ class MainActivity : AppCompatActivity() {
         setupSliders()
         updateStatusUi(false)
 
-        ledsLeft = listOf(binding.ledL0, binding.ledL1, binding.ledL2, binding.ledL3, binding.ledL4, binding.ledL5, binding.ledL6)
-        ledsRight = listOf(binding.ledR0, binding.ledR1, binding.ledR2, binding.ledR3, binding.ledR4, binding.ledR5, binding.ledR6)
+        ledsLeft = listOf(binding.ledL0, binding.ledL1, binding.ledL2, binding.ledL3, binding.ledL4, binding.ledL5, binding.ledL6, binding.ledL7, binding.ledL8, binding.ledL9)
+        ledsRight = listOf(binding.ledR0, binding.ledR1, binding.ledR2, binding.ledR3, binding.ledR4, binding.ledR5, binding.ledR6, binding.ledR7, binding.ledR8, binding.ledR9)
     }
 
     override fun onStart() {
