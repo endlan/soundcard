@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base panel -->
-    <color name="bg_base">#0E0F13</color>
-    <color name="surface_card">#1A1C22</color>
-    <color name="surface_card_alt">#20232C</color>
-    <color name="divider">#2B2E38</color>
+    <!-- Base panel: navy blue (kayak referensi bass booster app) -->
+    <color name="bg_base">#141B2E</color>
+    <color name="surface_card">#1D2740</color>
+    <color name="surface_card_alt">#232E4D</color>
+    <color name="divider">#2B3555</color>
 
     <!-- Text -->
     <color name="text_primary">#F2F3F5</color>
     <color name="text_secondary">#8C919D</color>
-    <color name="text_muted">#565A66</color>
+    <color name="text_muted">#7A8199</color>
 
     <!-- Power state -->
     <color name="power_on">#33FF9C</color>
-    <color name="power_off">#565A66</color>
+    <color name="power_off">#7A8199</color>
 
     <!-- Channel accent colors (per efek, kayak LED beda warna di mixer fisik) -->
     <color name="accent_echo">#29E1C9</color>
@@ -22,12 +22,12 @@
     <color name="accent_mid">#FFC857</color>
     <color name="accent_treble">#5AD1FF</color>
 
-    <color name="track_inactive">#31343F</color>
+    <color name="track_inactive">#2A3450</color>
 
     <!-- Fader (equalizer) -->
-    <color name="fader_track_bg">#0C0F18</color>
+    <color name="fader_track_bg">#0A0F1F</color>
     <color name="fader_track_active">#4A78E8</color>
-    <color name="fader_thumb_color">#B6BCC9</color>
+    <color name="fader_thumb_color">#C2C7D6</color>
 
     <!-- LED meter (dekoratif, kayak VU meter mixer fisik) -->
     <color name="led_red">#FF4D4D</color>
